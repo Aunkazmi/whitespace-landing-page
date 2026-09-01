@@ -1,7 +1,5 @@
-'use client'
-
 import { useState } from 'react'
-import './landing.css'
+import '../app/landing.css'
 
 const features = [
   {
