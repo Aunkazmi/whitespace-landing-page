@@ -290,14 +290,30 @@ function FeatureVisual({ type }) {
   if (type === 'orbit') {
     return (
       <div className="orbit-visual">
-        <div className="orbit-ring orbit-ring-one" />
-        <div className="orbit-ring orbit-ring-two" />
-        <div className="orbit-ring orbit-ring-three" />
+  <span className="orbit-ring orbit-ring-one" />
+  <span className="orbit-ring orbit-ring-two" />
+  <span className="orbit-ring orbit-ring-three" />
 
-        <span className="orbit-dot dot-one" />
-        <span className="orbit-dot dot-two" />
-        <span className="orbit-dot dot-three" />
-        <span className="orbit-dot dot-four" />
+  <div className="orbit-center">
+    <strong>W</strong>
+    <small>one workspace</small>
+  </div>
+
+  <span className="orbit-dot dot-one">
+    <span className="avatar-face">👩🏻‍💻</span>
+  </span>
+
+  <span className="orbit-dot dot-two">
+    <span className="avatar-face">👨🏽‍💻</span>
+  </span>
+
+  <span className="orbit-dot dot-three">
+    <span className="avatar-face">👩🏾</span>
+  </span>
+
+  <span className="orbit-dot dot-four">
+    <span className="avatar-face">👨🏻</span>
+  </span>
 
         <div className="orbit-center">
           <strong>W</strong>
@@ -466,9 +482,9 @@ export default function Page() {
           </span>
 
           <h1>
-            Make space for the{' '}
-            <span className="highlight">work that matters.</span>
-          </h1>
+  <span className="hero-first-line">Make space for the</span>{' '}
+  <span className="highlight">work that matters.</span>
+</h1>
 
           <p className="hero-text">
             Whitespace brings projects, people, and ideas into one beautifully
