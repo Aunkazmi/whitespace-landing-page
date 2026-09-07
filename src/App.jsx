@@ -14,12 +14,15 @@ import FAQ from './components/FAQ/FAQ'
 import FinalCTA from './components/FinalCTA/FinalCTA'
 import Footer from './components/Footer/Footer'
 import Login from './components/Login/Login'
+import Pricing from './components/Pricing/Pricing'
 
 import './styles/responsive.css'
 
 export default function App() {
   const [view, setView] = useState(() => {
-    return window.location.hash === '#login' ? 'login' : 'home'
+    if (window.location.hash === '#login') return 'login'
+    if (window.location.hash === '#pricing') return 'pricing'
+    return 'home'
   })
 
   useEffect(() => {
@@ -27,7 +30,10 @@ export default function App() {
       if (window.location.hash === '#login') {
         setView('login')
         window.scrollTo({ top: 0, behavior: 'smooth' })
-      } else if (view === 'login') {
+      } else if (window.location.hash === '#pricing') {
+        setView('pricing')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else if (view === 'login' || view === 'pricing') {
         setView('home')
       }
     }
@@ -48,6 +54,12 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  function navigateToPricing() {
+    setView('pricing')
+    window.location.hash = '#pricing'
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   function navigateToQuote() {
     setView('home')
     window.location.hash = '#quotation'
@@ -61,6 +73,10 @@ export default function App() {
     return <Login onBack={navigateToHome} onNavigateQuote={navigateToQuote} />
   }
 
+  if (view === 'pricing') {
+    return <Pricing onBack={navigateToHome} />
+  }
+
   return (
     <main className="site-shell" id="top">
       <Navbar onNavigateLogin={navigateToLogin} />
@@ -71,7 +87,7 @@ export default function App() {
       <DataSection />
       <Community />
       <Stories />
-      <Quotation />
+      <Quotation onNavigatePricing={navigateToPricing} />
       <FAQ />
       <FinalCTA />
       <Footer />

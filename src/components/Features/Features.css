@@ -55,6 +55,10 @@
     background 0.4s ease;
 }
 
+.feature-card-orbit {
+  overflow: visible;
+}
+
 .feature-card::before {
   content: '';
 
@@ -259,7 +263,7 @@
 .orbit-visual {
   position: relative;
 
-  width: min(390px, 100%);
+  width: min(340px, 100%);
 
   aspect-ratio: 1;
 

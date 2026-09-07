@@ -44,7 +44,7 @@ export default function Features() {
       <div className="feature-list">
         {features.map((feature, index) => (
           <article
-            className={`feature-card ${index % 2 !== 0 ? 'reverse' : ''}`}
+            className={`feature-card ${index % 2 !== 0 ? 'reverse' : ''} ${feature.visual === 'orbit' ? 'feature-card-orbit' : ''}`}
             key={feature.number}
           >
             <div className="feature-content">

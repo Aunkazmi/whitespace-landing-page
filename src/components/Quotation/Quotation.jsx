@@ -60,7 +60,7 @@ const serviceDeliverables = {
   },
 }
 
-export default function Quotation() {
+export default function Quotation({ onNavigatePricing }) {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -545,11 +545,21 @@ The Whitespace Team`
                   </span>
                 </div>
 
-                <button
-                  type="submit"
-                  className="quotation-submit-btn"
-                  disabled={isSubmitting}
-                >
+                {isPaid ? (
+                  <button
+                    type="button"
+                    className="quotation-submit-btn quotation-unlock-btn"
+                    onClick={onNavigatePricing}
+                  >
+                    <span>Unlock the Full Workspace</span>
+                    <Arrow />
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="quotation-submit-btn"
+                    disabled={isSubmitting}
+                  >
                   <span>
                     {isSubmitting
                       ? 'Submitting Request...'
@@ -557,7 +567,8 @@ The Whitespace Team`
                   </span>
 
                   {!isSubmitting && <Arrow />}
-                </button>
+                  </button>
+                )}
 
                 <div className="form-footnote">
                   <span>✓ Basic Service Free</span>

@@ -753,6 +753,15 @@
   transform: none;
 }
 
+.quotation-unlock-btn {
+  background: linear-gradient(135deg, #e74d4b, #bd2e3c);
+  box-shadow: 0 10px 25px rgba(189, 46, 60, 0.25);
+}
+
+.quotation-unlock-btn:hover {
+  box-shadow: 0 14px 32px rgba(189, 46, 60, 0.35);
+}
+
 /* =========================================================
    FORM FOOTNOTE
 ========================================================= */
