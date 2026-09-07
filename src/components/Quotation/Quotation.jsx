@@ -2,6 +2,57 @@ import { useState } from 'react'
 import Arrow from '../ui/Arrow'
 import './Quotation.css'
 
+const serviceDeliverables = {
+  'Full Workspace Setup': {
+    title: 'Full Workspace Setup',
+    badge: '⚡ 24h Setup',
+    icon: '🛠️',
+    summary: 'Complete end-to-end configuration of your company’s workspace so your team can hit the ground running.',
+    deliverables: [
+      'Custom Kanban boards, sprint pipelines & roadmaps',
+      'Team member roles, access permissions & group spaces',
+      'Automated notification rules & pre-configured views',
+      'Personalized team onboarding documentation & templates',
+    ],
+  },
+  'Team Migration': {
+    title: 'Team Data Migration',
+    badge: '🛡️ Zero Data Loss',
+    icon: '📦',
+    summary: 'Seamless transfer of all your active boards, projects, and documents from previous tools with zero downtime.',
+    deliverables: [
+      'Data import from Trello, Asana, Notion, ClickUp, or Jira',
+      'Full retention of file attachments, comments & timestamps',
+      'Smart custom field & tag mapping to Whitespace schema',
+      'Post-migration validation & data integrity audit',
+    ],
+  },
+  'Custom Integrations': {
+    title: 'Custom Tool Integrations',
+    badge: '🔗 2-Way Sync',
+    icon: '⚡',
+    summary: 'Connect your mission-critical tools into Whitespace to eliminate tab-switching and duplicate entries.',
+    deliverables: [
+      'Bidirectional sync for Slack, Google Drive, Figma & GitHub',
+      'Custom webhooks, automated bots & trigger actions',
+      'Unified activity & change notification streams',
+      'API authentication & private connection testing',
+    ],
+  },
+  'Workflow Consulting': {
+    title: 'Workflow & Productivity Consulting',
+    badge: '🎯 1-on-1 Expert Audit',
+    icon: '📈',
+    summary: 'Strategic operational review to remove bottlenecks, reduce meeting noise, and maximize team velocity.',
+    deliverables: [
+      '1-on-1 operational audit with a workspace specialist',
+      'Asynchronous communication & noise reduction framework',
+      'Custom KPI dashboards & velocity tracking layout',
+      'Actionable recommendations report & 30-day follow-up',
+    ],
+  },
+}
+
 export default function Quotation() {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -197,6 +248,45 @@ export default function Quotation() {
                     <option value="Custom Integrations">Custom Tool Integrations</option>
                     <option value="Workflow Consulting">Workflow & Productivity Consulting</option>
                   </select>
+
+                  {/* Dynamic What's Included Preview Box */}
+                  {serviceDeliverables[formData.serviceType] && (
+                    <div className="service-details-box" key={formData.serviceType}>
+                      <div className="service-details-header">
+                        <div className="service-details-title-row">
+                          <span className="service-details-icon">
+                            {serviceDeliverables[formData.serviceType].icon}
+                          </span>
+                          <div>
+                            <span className="service-details-badge">
+                              {serviceDeliverables[formData.serviceType].badge}
+                            </span>
+                            <h5 className="service-details-heading">
+                              {serviceDeliverables[formData.serviceType].title}
+                            </h5>
+                          </div>
+                        </div>
+                        <span className="service-free-pill">✓ 100% Free Included</span>
+                      </div>
+
+                      <p className="service-details-summary">
+                        {serviceDeliverables[formData.serviceType].summary}
+                      </p>
+
+                      <div className="service-deliverables-title">
+                        <span>What's included in this service:</span>
+                      </div>
+
+                      <ul className="service-deliverables-list">
+                        {serviceDeliverables[formData.serviceType].deliverables.map((item, idx) => (
+                          <li key={idx} className="service-deliverable-item">
+                            <span className="service-check-icon">✓</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
 
                 <div className="form-group">
