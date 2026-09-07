@@ -39,16 +39,12 @@ export default function Navbar({ onNavigateLogin }) {
         <a href="#faq" onClick={closeMenu}>
           FAQ
         </a>
-        <a href="#login" className="mobile-login-link" onClick={handleLoginClick} style={{ display: menuOpen ? 'block' : 'none' }}>
-          Log in
-        </a>
       </nav>
 
       <div className="nav-actions">
-        <a className="login-link" href="#login" onClick={handleLoginClick}>
+        <MiniButton href="#login" onClick={handleLoginClick}>
           Log in
-        </a>
-        <MiniButton href="#quotation">Get started</MiniButton>
+        </MiniButton>
       </div>
 
       <button
