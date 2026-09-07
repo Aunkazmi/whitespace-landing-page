@@ -2,11 +2,21 @@ import { useState } from 'react'
 import MiniButton from '../ui/MiniButton'
 import './Navbar.css'
 
-export default function Navbar() {
+export default function Navbar({ onNavigateLogin }) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   function closeMenu() {
     setMenuOpen(false)
+  }
+
+  function handleLoginClick(e) {
+    e.preventDefault()
+    closeMenu()
+    if (onNavigateLogin) {
+      onNavigateLogin()
+    } else {
+      window.location.hash = '#login'
+    }
   }
 
   return (
@@ -29,10 +39,13 @@ export default function Navbar() {
         <a href="#faq" onClick={closeMenu}>
           FAQ
         </a>
+        <a href="#login" className="mobile-login-link" onClick={handleLoginClick} style={{ display: menuOpen ? 'block' : 'none' }}>
+          Log in
+        </a>
       </nav>
 
       <div className="nav-actions">
-        <a className="login-link" href="#quotation">
+        <a className="login-link" href="#login" onClick={handleLoginClick}>
           Log in
         </a>
         <MiniButton href="#quotation">Get started</MiniButton>

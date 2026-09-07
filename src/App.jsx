@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import './styles/base.css'
 
 import Navbar from './components/Navbar/Navbar'
@@ -12,13 +13,57 @@ import Quotation from './components/Quotation/Quotation'
 import FAQ from './components/FAQ/FAQ'
 import FinalCTA from './components/FinalCTA/FinalCTA'
 import Footer from './components/Footer/Footer'
+import Login from './components/Login/Login'
 
 import './styles/responsive.css'
 
 export default function App() {
+  const [view, setView] = useState(() => {
+    return window.location.hash === '#login' ? 'login' : 'home'
+  })
+
+  useEffect(() => {
+    function handleHashChange() {
+      if (window.location.hash === '#login') {
+        setView('login')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else if (view === 'login') {
+        setView('home')
+      }
+    }
+
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [view])
+
+  function navigateToLogin() {
+    setView('login')
+    window.location.hash = '#login'
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  function navigateToHome() {
+    setView('home')
+    window.location.hash = '#top'
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  function navigateToQuote() {
+    setView('home')
+    window.location.hash = '#quotation'
+    setTimeout(() => {
+      const el = document.getElementById('quotation')
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    }, 50)
+  }
+
+  if (view === 'login') {
+    return <Login onBack={navigateToHome} onNavigateQuote={navigateToQuote} />
+  }
+
   return (
     <main className="site-shell" id="top">
-      <Navbar />
+      <Navbar onNavigateLogin={navigateToLogin} />
       <Hero />
       <TrustStrip />
       <Features />
