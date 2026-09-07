@@ -1,0 +1,47 @@
+/* =========================================================
+   FINAL CTA
+========================================================= */
+
+.final-cta {
+  padding: 55px 24px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(23, 105, 255, 0.10),
+      transparent 42%
+    ),
+    linear-gradient(
+      180deg,
+      #f4f8fd 0%,
+      #eef4fb 100%
+    );
+}
+
+.final-cta-inner {
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+  transition: transform 0.4s ease;
+}
+
+.final-cta-inner:hover {
+  transform: translateY(-3px);
+}
+
+.final-cta h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(48px, 7vw, 78px);
+  line-height: 0.98;
+  letter-spacing: -0.065em;
+}
+
+.final-cta h2 span {
+  color: var(--blue);
+}
+
+.final-cta p {
+  margin: 22px auto 30px;
+  color: #52647b;
+  font-size: 16px;
+  opacity: 1;
+}

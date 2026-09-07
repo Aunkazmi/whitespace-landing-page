@@ -1,0 +1,595 @@
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.feature-heading {
+  margin-bottom: 30px;
+}
+
+.feature-list {
+  display: grid;
+  gap: 20px;
+}
+
+.feature-card {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    0.85fr
+    1.15fr;
+
+  align-items: center;
+
+  gap: 55px;
+
+  min-height: 410px;
+
+  padding: 45px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--line);
+
+  border-radius: 24px;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(23, 105, 255, 0.065),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f8fbff 100%
+    );
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    transform 0.4s cubic-bezier(.2,.8,.2,1),
+    box-shadow 0.4s ease,
+    border-color 0.35s ease,
+    background 0.4s ease;
+}
+
+.feature-card::before {
+  content: '';
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 5px;
+  height: 0;
+
+  border-radius: 0 0 8px 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--blue),
+      var(--purple)
+    );
+
+  transition:
+    height 0.4s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-7px);
+
+  border-color: #c5d9f4;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(23, 105, 255, 0.10),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f4f9ff 100%
+    );
+
+  box-shadow:
+    0 25px 65px rgba(13, 31, 58, 0.11),
+    0 0 0 5px rgba(23, 105, 255, 0.025);
+}
+
+.feature-card:hover::before {
+  height: 100%;
+}
+
+.feature-card.reverse {
+  grid-template-columns:
+    1.15fr
+    0.85fr;
+}
+
+.feature-card.reverse .feature-content {
+  order: 2;
+}
+
+.feature-card.reverse .feature-image-wrap,
+.feature-card.reverse .orbit-visual {
+  order: 1;
+}
+
+.feature-content {
+  max-width: 410px;
+}
+
+.feature-number {
+  width: 40px;
+  height: 27px;
+
+  display: inline-grid;
+  place-items: center;
+
+  margin-bottom: 25px;
+
+  border: 1px solid #d9e5f4;
+
+  border-radius: 30px;
+
+  color: var(--blue);
+
+  background: #f2f7ff;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.feature-card:hover .feature-number {
+  color: white;
+
+  border-color: var(--blue);
+
+  background: var(--blue);
+
+  transform: translateY(-2px);
+}
+
+.feature-content h3 {
+  font-family: 'Space Grotesk', sans-serif;
+
+  font-size: clamp(30px, 3.5vw, 43px);
+
+  line-height: 1.05;
+
+  letter-spacing: -0.055em;
+}
+
+.feature-content p {
+  margin-top: 17px;
+
+  color: #52647b;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+
+  opacity: 1;
+}
+
+.feature-link {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin-top: 24px;
+
+  color: var(--blue);
+
+  font-size: 12px;
+  font-weight: 800;
+
+  transition:
+    gap 0.3s ease,
+    color 0.3s ease;
+}
+
+.feature-link:hover {
+  color: var(--blue-dark);
+  gap: 12px;
+}
+
+.feature-image-wrap {
+  overflow: hidden;
+
+  border: 1px solid #dbe5f1;
+
+  border-radius: 16px;
+
+  background: #edf4ff;
+
+  box-shadow:
+    0 16px 40px rgba(13, 31, 58, 0.08);
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color 0.35s ease;
+}
+
+.feature-card:hover .feature-image-wrap {
+  border-color: #bfd4f1;
+
+  box-shadow:
+    0 22px 45px rgba(13, 31, 58, 0.12);
+
+  transform: scale(1.015);
+}
+
+.saas-image {
+  width: 100%;
+  height: 310px;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.6s cubic-bezier(.2,.8,.2,1),
+    filter 0.4s ease;
+}
+
+.feature-card:hover .saas-image {
+  transform: scale(1.025);
+
+  filter: saturate(1.06);
+}
+
+
+/* =========================================================
+   ORBIT
+========================================================= */
+
+.orbit-visual {
+  position: relative;
+
+  width: min(390px, 100%);
+
+  aspect-ratio: 1;
+
+  margin: auto;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #e7f1ff 0 12%,
+      transparent 12.5%
+    ),
+    radial-gradient(
+      circle at center,
+      rgba(23, 105, 255, 0.08),
+      transparent 62%
+    );
+}
+
+.orbit-ring {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  border: 1px solid #c6dafa;
+
+  border-radius: 50%;
+
+  transform: translate(-50%, -50%);
+
+  transition:
+    border-color 0.4s ease,
+    transform 0.5s ease;
+}
+
+.orbit-visual:hover .orbit-ring {
+  border-color: rgba(23, 105, 255, 0.32);
+}
+
+.orbit-ring-one {
+  width: 38%;
+  height: 38%;
+}
+
+.orbit-ring-two {
+  width: 64%;
+  height: 64%;
+}
+
+.orbit-ring-three {
+  width: 88%;
+  height: 88%;
+}
+
+.orbit-center {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: 82px;
+  height: 82px;
+
+  display: grid;
+  place-items: center;
+  align-content: center;
+
+  transform: translate(-50%, -50%);
+
+  border: 1px solid #d4e3f7;
+
+  border-radius: 50%;
+
+  background: white;
+
+  box-shadow: var(--shadow-md);
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.orbit-visual:hover .orbit-center {
+  transform:
+    translate(-50%, -50%)
+    scale(1.06);
+
+  border-color: #bcd2f2;
+
+  box-shadow:
+    0 20px 45px rgba(23, 105, 255, 0.18),
+    0 0 45px rgba(23, 105, 255, 0.12);
+}
+
+.orbit-center strong {
+  color: var(--blue);
+
+  font-family: 'Space Grotesk', sans-serif;
+
+  font-size: 23px;
+}
+
+.orbit-center small {
+  color: #718096;
+
+  font-size: 7px;
+}
+
+/* =========================
+   ANIMATED PEOPLE AVATARS
+========================= */
+
+.orbit-dot {
+  position: absolute;
+  z-index: 5;
+
+  width: 48px;
+  height: 48px;
+
+  display: grid;
+  place-items: center;
+
+  border: 3px solid rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #eaf2ff 45%,
+      #cfe0ff 100%
+    );
+
+  box-shadow:
+    0 8px 25px rgba(23, 105, 255, 0.18),
+    0 0 0 5px rgba(23, 105, 255, 0.06),
+    0 0 25px rgba(23, 105, 255, 0.16);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+
+  animation: avatarFloat 4s ease-in-out infinite;
+}
+
+/* Soft glowing halo around each person */
+
+.orbit-dot::before {
+  content: '';
+  position: absolute;
+  inset: -7px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(23, 105, 255, 0.18);
+
+  opacity: 0.7;
+
+  animation: avatarPulse 3s ease-in-out infinite;
+}
+
+/* Small shine that moves around the avatar */
+
+.orbit-dot::after {
+  content: '';
+
+  position: absolute;
+
+  top: 4px;
+  left: 7px;
+
+  width: 13px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.85);
+
+  filter: blur(1px);
+
+  transform: rotate(-25deg);
+
+  pointer-events: none;
+}
+
+/* The actual person */
+
+.avatar-face {
+  position: relative;
+  z-index: 2;
+
+  display: block;
+
+  font-size: 25px;
+  line-height: 1;
+
+  transform: translateY(1px);
+
+  filter:
+    drop-shadow(0 3px 4px rgba(13, 31, 58, 0.12));
+
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+}
+
+
+/* =========================
+   AVATAR POSITIONS
+========================= */
+
+.dot-one {
+  top: 16%;
+  left: 45%;
+
+  animation-delay: 0s;
+}
+
+.dot-two {
+  right: 13%;
+  top: 42%;
+
+  animation-delay: -1s;
+}
+
+.dot-three {
+  left: 20%;
+  bottom: 18%;
+
+  animation-delay: -2s;
+}
+
+.dot-four {
+  right: 30%;
+  bottom: 5%;
+
+  border-color: rgba(255, 255, 255, 0.98);
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffdf4 0%,
+      #fff3c8 45%,
+      #ffe08a 100%
+    );
+
+  box-shadow:
+    0 8px 25px rgba(255, 193, 61, 0.22),
+    0 0 0 5px rgba(255, 193, 61, 0.07),
+    0 0 28px rgba(255, 193, 61, 0.25);
+
+  animation-delay: -3s;
+}
+
+.dot-four::before {
+  border-color: rgba(255, 193, 61, 0.28);
+}
+
+
+/* =========================
+   HOVER EFFECT
+========================= */
+
+.orbit-dot:hover {
+  z-index: 20;
+
+  transform:
+    translateY(-8px)
+    scale(1.18);
+
+  border-color: #ffffff;
+
+  box-shadow:
+    0 14px 35px rgba(23, 105, 255, 0.28),
+    0 0 0 7px rgba(23, 105, 255, 0.08),
+    0 0 45px rgba(23, 105, 255, 0.35);
+}
+
+.orbit-dot:hover .avatar-face {
+  transform:
+    translateY(-1px)
+    scale(1.08);
+
+  filter:
+    drop-shadow(0 5px 8px rgba(13, 31, 58, 0.18));
+}
+
+.dot-four:hover {
+  box-shadow:
+    0 14px 35px rgba(255, 193, 61, 0.3),
+    0 0 0 7px rgba(255, 193, 61, 0.08),
+    0 0 45px rgba(255, 193, 61, 0.38);
+}
+
+
+/* =========================
+   FLOATING ANIMATION
+========================= */
+
+@keyframes avatarFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+
+/* =========================
+   GLOWING PULSE
+========================= */
+
+@keyframes avatarPulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.35;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 0.75;
+  }
+}
