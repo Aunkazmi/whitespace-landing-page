@@ -5,16 +5,12 @@
 .quotation-section {
   position: relative;
   background:
-    radial-gradient(
-      circle at 10% 20%,
+    radial-gradient(circle at 10% 20%,
       rgba(23, 105, 255, 0.05),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 90% 80%,
+      transparent 35%),
+    radial-gradient(circle at 90% 80%,
       rgba(124, 92, 255, 0.04),
-      transparent 35%
-    ),
+      transparent 35%),
     #ffffff;
 }
 
@@ -44,10 +40,13 @@
 }
 
 @keyframes quotationPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(0.9);
     opacity: 0.7;
   }
+
   50% {
     transform: scale(1.25);
     opacity: 1;
@@ -62,7 +61,10 @@
   margin-top: 24px;
 }
 
-/* Left side - Information & Value propositions */
+/* =========================================================
+   LEFT SIDE - INFORMATION & VALUE PROPOSITIONS
+========================================================= */
+
 .quotation-info {
   display: flex;
   flex-direction: column;
@@ -98,7 +100,10 @@
   border-radius: 14px;
   background: #f9fbfe;
   border: 1px solid #e7effa;
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .quotation-perk-item:hover {
@@ -134,7 +139,10 @@
   line-height: 1.5;
 }
 
-/* Right side - The Form Card */
+/* =========================================================
+   RIGHT SIDE - FORM CARD
+========================================================= */
+
 .quotation-card {
   position: relative;
   background: #ffffff;
@@ -142,7 +150,9 @@
   border-radius: 24px;
   padding: 44px;
   box-shadow: 0 20px 60px rgba(13, 31, 58, 0.08);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .quotation-card:hover {
@@ -211,7 +221,10 @@
   border: 1px solid #dbe5f2;
   border-radius: 12px;
   outline: none;
-  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .form-input:focus,
@@ -240,30 +253,30 @@
 /* =========================================================
    DYNAMIC SERVICE DELIVERABLES PREVIEW BOX
 ========================================================= */
+
 .service-details-box {
   margin-top: 10px;
   background:
-    radial-gradient(
-      circle at 100% 0%,
+    radial-gradient(circle at 100% 0%,
       rgba(23, 105, 255, 0.08),
-      transparent 50%
-    ),
-    linear-gradient(
-      145deg,
+      transparent 50%),
+    linear-gradient(145deg,
       #f8fbff 0%,
-      #edf4fd 100%
-    );
+      #edf4fd 100%);
   border: 1px solid #c9dffc;
   border-radius: 16px;
   padding: 18px 20px;
   box-shadow: 0 8px 24px rgba(23, 105, 255, 0.06);
-  animation: serviceBoxSlide 0.3s cubic-bezier(.2,.8,.2,1);
-  transition: all 0.3s ease;
+  animation: serviceBoxSlide 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 
 .service-details-box:hover {
   border-color: #aed0fa;
-  box-shadow: 0 12px 30px rgba(23, 105, 255, 0.10);
+  box-shadow: 0 12px 30px rgba(23, 105, 255, 0.1);
   transform: translateY(-2px);
 }
 
@@ -272,11 +285,16 @@
     opacity: 0;
     transform: translateY(-8px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
+
+/* =========================================================
+   SERVICE HEADER
+========================================================= */
 
 .service-details-header {
   display: flex;
@@ -325,15 +343,42 @@
   margin: 0;
 }
 
+/* =========================================================
+   FREE / PAID STATUS PILL
+========================================================= */
+
 .service-free-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
   font-size: 11px;
   font-weight: 700;
-  padding: 4px 10px;
+  padding: 5px 11px;
   border-radius: 999px;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.service-basic-pill {
   background: rgba(53, 201, 139, 0.14);
   color: #1a8355;
   border: 1px solid rgba(53, 201, 139, 0.28);
 }
+
+.service-paid-pill {
+  background: rgba(23, 105, 255, 0.1);
+  color: var(--blue);
+  border: 1px solid rgba(23, 105, 255, 0.25);
+  box-shadow: 0 4px 12px rgba(23, 105, 255, 0.08);
+}
+
+/* =========================================================
+   SERVICE DESCRIPTION
+========================================================= */
 
 .service-details-summary {
   font-size: 13px;
@@ -341,6 +386,37 @@
   line-height: 1.55;
   margin: 11px 0 14px;
 }
+
+/* =========================================================
+   SELECTION INFO
+========================================================= */
+
+.service-selection-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.service-selection-info .service-deliverables-title {
+  margin-bottom: 0;
+}
+
+.service-selection-count {
+  flex-shrink: 0;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(23, 105, 255, 0.08);
+  border: 1px solid rgba(23, 105, 255, 0.14);
+  color: var(--blue);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   DELIVERABLES TITLE
+========================================================= */
 
 .service-deliverables-title {
   display: flex;
@@ -354,6 +430,100 @@
   margin-bottom: 10px;
 }
 
+/* =========================================================
+    FREE / PAID INFORMATION MESSAGE
+ ========================================================= */
+
+.service-pricing-message {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 10px;
+  padding: 9px 11px;
+  border-radius: 10px;
+
+  /* Default: FREE */
+  background: rgba(53, 201, 139, 0.08);
+  border: 1px dashed rgba(53, 201, 139, 0.28);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.service-pricing-message strong {
+  font-size: 11.5px;
+  color: #1a8355;
+  font-weight: 700;
+}
+
+.service-pricing-message span {
+  font-size: 11px;
+  color: #557066;
+  line-height: 1.45;
+}
+
+
+/* =========================================================
+   PAID / UNLOCK STATE - RED
+   Activated when more than 2 checkboxes are selected
+ ========================================================= */
+
+.service-is-paid .service-pricing-message {
+  background: rgba(235, 77, 75, 0.09);
+  border: 1px dashed rgba(235, 77, 75, 0.35);
+  box-shadow: 0 4px 14px rgba(235, 77, 75, 0.07);
+}
+
+.service-is-paid .service-pricing-message strong {
+  color: #c03937;
+}
+
+.service-is-paid .service-pricing-message span {
+  color: #7d5554;
+}
+
+
+/* =========================================================
+   STATUS PILL
+ ========================================================= */
+
+.service-free-pill {
+  background: rgba(53, 201, 139, 0.14);
+  color: #1a8355;
+  border: 1px solid rgba(53, 201, 139, 0.28);
+  box-shadow: 0 4px 12px rgba(53, 201, 139, 0.06);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+/* =========================================================
+   UNLOCK FULL WORKSPACE - RED
+ ========================================================= */
+
+.service-paid-pill {
+  background: rgba(235, 77, 75, 0.13);
+  border: 1px solid rgba(235, 77, 75, 0.30);
+  color: #c03937;
+  box-shadow: 0 4px 12px rgba(235, 77, 75, 0.08);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* =========================================================
+   SELECTABLE DELIVERABLE LIST
+========================================================= */
+
 .service-deliverables-list {
   list-style: none;
   padding: 0;
@@ -365,18 +535,67 @@
 
 .service-deliverable-item {
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 8px 12px;
+  align-items: stretch;
+  padding: 0;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.65);
   border: 1px solid rgba(220, 233, 248, 0.8);
   font-size: 13px;
   color: #38495f;
   line-height: 1.45;
-  transition: all 0.22s ease;
+  transition:
+    background 0.22s ease,
+    color 0.22s ease,
+    border-color 0.22s ease,
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
+/* Entire row is clickable */
+.service-deliverable-label {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Hide browser checkbox */
+.service-deliverable-label input[type='checkbox'] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Custom checkbox */
+.service-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: #ffffff;
+  border: 1.5px solid #c9d8ea;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Text */
+.service-deliverable-text {
+  flex: 1;
+}
+
+/* Hover */
 .service-deliverable-item:hover {
   background: #ffffff;
   color: var(--ink);
@@ -385,19 +604,116 @@
   box-shadow: 0 4px 12px rgba(23, 105, 255, 0.06);
 }
 
-.service-check-icon {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: rgba(53, 201, 139, 0.18);
-  color: #1e8758;
-  font-size: 11px;
-  font-weight: 800;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  margin-top: 1px;
+.service-deliverable-item:hover .service-checkbox {
+  border-color: #8db9ef;
 }
+
+/* Selected row */
+.service-deliverable-selected {
+  background: rgba(23, 105, 255, 0.07);
+  border-color: rgba(23, 105, 255, 0.3);
+  color: var(--ink);
+  box-shadow: 0 4px 14px rgba(23, 105, 255, 0.07);
+}
+
+.service-deliverable-selected:hover {
+  background: rgba(23, 105, 255, 0.09);
+  border-color: rgba(23, 105, 255, 0.38);
+  transform: translateX(3px);
+}
+
+/* Selected checkbox */
+.service-deliverable-selected .service-checkbox {
+  background: var(--blue);
+  border-color: var(--blue);
+  box-shadow: 0 4px 10px rgba(23, 105, 255, 0.2);
+  transform: scale(1.03);
+}
+
+/* Keyboard accessibility */
+.service-deliverable-label:focus-within .service-checkbox {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(23, 105, 255, 0.15);
+}
+
+/* =========================================================
+   BOTTOM PRICING STATUS
+========================================================= */
+
+.quotation-pricing-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-top: 2px;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.quotation-pricing-status>div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.quotation-pricing-status strong {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.quotation-pricing-status span {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.quotation-pricing-status>span {
+  flex-shrink: 0;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.quotation-pricing-free {
+  background: rgba(53, 201, 139, 0.08);
+  border: 1px solid rgba(53, 201, 139, 0.22);
+}
+
+.quotation-pricing-free>div span {
+  color: #4d725f;
+}
+
+.quotation-pricing-free>span {
+  background: rgba(53, 201, 139, 0.14);
+  border: 1px solid rgba(53, 201, 139, 0.25);
+  color: #1a8355;
+}
+
+.quotation-pricing-paid {
+  background: rgba(23, 105, 255, 0.06);
+  border: 1px solid rgba(23, 105, 255, 0.2);
+  box-shadow: 0 5px 16px rgba(23, 105, 255, 0.05);
+}
+
+.quotation-pricing-paid>div span {
+  color: #526b8b;
+}
+
+.quotation-pricing-paid>span {
+  background: rgba(23, 105, 255, 0.1);
+  border: 1px solid rgba(23, 105, 255, 0.22);
+  color: var(--blue);
+}
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
 
 .quotation-submit-btn {
   display: inline-flex;
@@ -415,7 +731,10 @@
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 10px 25px rgba(23, 105, 255, 0.25);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
   margin-top: 6px;
 }
 
@@ -431,7 +750,12 @@
 .quotation-submit-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+  transform: none;
 }
+
+/* =========================================================
+   FORM FOOTNOTE
+========================================================= */
 
 .form-footnote {
   display: flex;
@@ -442,6 +766,7 @@
   color: #556882;
   margin-top: 10px;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 .form-footnote svg {
@@ -450,7 +775,10 @@
   stroke: #35c98b;
 }
 
-/* Success Confirmation State */
+/* =========================================================
+   SUCCESS CONFIRMATION STATE
+========================================================= */
+
 .quotation-success {
   display: flex;
   flex-direction: column;
@@ -465,6 +793,7 @@
     opacity: 0;
     transform: scale(0.96);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -513,6 +842,10 @@
   margin-bottom: 24px;
 }
 
+.success-details-card div {
+  padding: 4px 0;
+}
+
 .success-details-card strong {
   color: var(--ink);
 }
@@ -520,6 +853,7 @@
 /* =========================================================
    FRONTEND GENERATED CONFIRMATION EMAIL MOCKUP
 ========================================================= */
+
 .email-dispatch-banner {
   display: inline-flex;
   align-items: center;
@@ -536,8 +870,15 @@
 }
 
 @keyframes pulseGreen {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(53, 201, 139, 0.2); }
-  50% { box-shadow: 0 0 0 6px rgba(53, 201, 139, 0); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(53, 201, 139, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(53, 201, 139, 0);
+  }
 }
 
 .email-mockup-card {
@@ -664,6 +1005,10 @@
   border-color: var(--blue);
 }
 
+/* =========================================================
+   RESET BUTTON
+========================================================= */
+
 .reset-form-btn {
   background: transparent;
   border: 1px solid #dce7f5;
@@ -673,13 +1018,19 @@
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .reset-form-btn:hover {
   background: #f5f8fc;
   border-color: #cbdcf2;
 }
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
 
 @media (max-width: 900px) {
   .quotation-grid {
@@ -692,9 +1043,68 @@
   }
 }
 
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
 @media (max-width: 600px) {
   .form-row {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .quotation-card {
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
+  .service-details-box {
+    padding: 16px;
+  }
+
+  .service-details-header {
+    align-items: flex-start;
+  }
+
+  .service-free-pill {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
+  .service-selection-info {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .service-selection-count {
+    align-self: flex-start;
+  }
+
+  .service-deliverable-label {
+    min-height: 46px;
+    padding: 9px 10px;
+  }
+
+  .service-deliverable-text {
+    font-size: 12.5px;
+  }
+
+  .quotation-pricing-status {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .quotation-pricing-status>span {
+    align-self: flex-start;
+  }
+
+  .form-footnote {
+    gap: 6px;
+    line-height: 1.5;
+  }
+
+  .email-summary-box {
+    grid-template-columns: 1fr;
   }
 }

@@ -7,7 +7,8 @@ const serviceDeliverables = {
     title: 'Full Workspace Setup',
     badge: '⚡ 24h Setup',
     icon: '🛠️',
-    summary: 'Complete end-to-end configuration of your company’s workspace so your team can hit the ground running.',
+    summary:
+      'Complete end-to-end configuration of your company’s workspace so your team can hit the ground running.',
     deliverables: [
       'Custom Kanban boards, sprint pipelines & roadmaps',
       'Team member roles, access permissions & group spaces',
@@ -15,11 +16,13 @@ const serviceDeliverables = {
       'Personalized team onboarding documentation & templates',
     ],
   },
+
   'Team Migration': {
     title: 'Team Data Migration',
     badge: '🛡️ Zero Data Loss',
     icon: '📦',
-    summary: 'Seamless transfer of all your active boards, projects, and documents from previous tools with zero downtime.',
+    summary:
+      'Seamless transfer of all your active boards, projects, and documents from previous tools with zero downtime.',
     deliverables: [
       'Data import from Trello, Asana, Notion, ClickUp, or Jira',
       'Full retention of file attachments, comments & timestamps',
@@ -27,11 +30,13 @@ const serviceDeliverables = {
       'Post-migration validation & data integrity audit',
     ],
   },
+
   'Custom Integrations': {
     title: 'Custom Tool Integrations',
     badge: '🔗 2-Way Sync',
     icon: '⚡',
-    summary: 'Connect your mission-critical tools into Whitespace to eliminate tab-switching and duplicate entries.',
+    summary:
+      'Connect your mission-critical tools into Whitespace to eliminate tab-switching and duplicate entries.',
     deliverables: [
       'Bidirectional sync for Slack, Google Drive, Figma & GitHub',
       'Custom webhooks, automated bots & trigger actions',
@@ -39,11 +44,13 @@ const serviceDeliverables = {
       'API authentication & private connection testing',
     ],
   },
+
   'Workflow Consulting': {
     title: 'Workflow & Productivity Consulting',
     badge: '🎯 1-on-1 Expert Audit',
     icon: '📈',
-    summary: 'Strategic operational review to remove bottlenecks, reduce meeting noise, and maximize team velocity.',
+    summary:
+      'Strategic operational review to remove bottlenecks, reduce meeting noise, and maximize team velocity.',
     deliverables: [
       '1-on-1 operational audit with a workspace specialist',
       'Asynchronous communication & noise reduction framework',
@@ -61,6 +68,7 @@ export default function Quotation() {
     teamSize: '1-5 people',
     serviceType: 'Full Workspace Setup',
     message: '',
+    selectedDeliverables: [],
   })
 
   const [submitted, setSubmitted] = useState(false)
@@ -70,7 +78,36 @@ export default function Quotation() {
 
   function handleChange(e) {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+
+    // If the service type changes, reset selected deliverables
+    if (name === 'serviceType') {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+        selectedDeliverables: [],
+      }))
+      return
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
+  function handleDeliverableToggle(deliverable) {
+    setFormData((prev) => {
+      const alreadySelected = prev.selectedDeliverables.includes(deliverable)
+
+      const updatedDeliverables = alreadySelected
+        ? prev.selectedDeliverables.filter((item) => item !== deliverable)
+        : [...prev.selectedDeliverables, deliverable]
+
+      return {
+        ...prev,
+        selectedDeliverables: updatedDeliverables,
+      }
+    })
   }
 
   function handleSubmit(e) {
@@ -79,6 +116,7 @@ export default function Quotation() {
 
     // Generate random reference ticket ID
     const genTicket = 'WS-' + Math.floor(100000 + Math.random() * 900000)
+
     setTicketId(genTicket)
 
     // Simulate instant frontend dispatch
@@ -89,9 +127,42 @@ export default function Quotation() {
   }
 
   function handleCopyEmail() {
-    const emailBody = `Hi ${formData.fullName},\n\nWe have received your quotation request for ${formData.company}.\nYour request is currently being processed by our onboarding engineers.\nSince Whitespace is 100% free, your custom setup will be completed within 24 hours at zero charge.\n\nTicket Reference: #${ticketId}\nService: ${formData.serviceType}\nTeam Size: ${formData.teamSize}\nStatus: Being Processed ⚙️\n\nWarm regards,\nThe Whitespace Team`
+    const selectedItems =
+      formData.selectedDeliverables.length > 0
+        ? formData.selectedDeliverables
+          .map((item) => `• ${item}`)
+          .join('\n')
+        : 'No additional deliverables selected.'
+
+    const pricingStatus =
+      formData.selectedDeliverables.length <= 2
+        ? 'Basic — Free'
+        : 'Paid — 3+ Services Selected'
+
+    const emailBody = `Hi ${formData.fullName},
+
+We have received your quotation request for ${formData.company}.
+
+Your request is currently being processed by our onboarding engineers.
+
+Since Whitespace offers a free basic setup, up to 2 selected services are included at zero charge. Additional selections may require a paid service package.
+
+Ticket Reference: #${ticketId}
+Service: ${formData.serviceType}
+Team Size: ${formData.teamSize}
+Pricing Status: ${pricingStatus}
+
+Selected Deliverables:
+${selectedItems}
+
+Status: Being Processed ⚙️
+
+Warm regards,
+The Whitespace Team`
+
     navigator.clipboard.writeText(emailBody)
     setCopied(true)
+
     setTimeout(() => setCopied(false), 2000)
   }
 
@@ -103,22 +174,34 @@ export default function Quotation() {
       teamSize: '1-5 people',
       serviceType: 'Full Workspace Setup',
       message: '',
+      selectedDeliverables: [],
     })
+
     setSubmitted(false)
     setCopied(false)
   }
+
+  const currentService = serviceDeliverables[formData.serviceType]
+
+  const selectedCount = formData.selectedDeliverables.length
+  const isPaid = selectedCount > 2
+  const pricingLabel = isPaid
+    ? 'Unlock the Full Workspace ✦'
+    : '✓ Basic — Free'
 
   return (
     <section className="quotation-section section" id="quotation">
       <div className="section-heading centered">
         <div className="quotation-badge">
           <span className="quotation-badge-dot" />
-          100% Free Service & Setup
+          Basic Setup Free
         </div>
+
         <h2>Request your free quotation & onboarding.</h2>
+
         <p>
-          Whitespace is completely free! Tell us about your project or team,
-          and we will deliver a custom workspace tailored exactly to your needs.
+          Whitespace offers a free basic setup. Select the services you need,
+          and choose up to 2 deliverables for the free package.
         </p>
       </div>
 
@@ -126,45 +209,67 @@ export default function Quotation() {
         {/* Left Side: Value propositions & free benefits */}
         <div className="quotation-info">
           <div>
-            <span className="eyebrow">ZERO COST. MAXIMUM FOCUS.</span>
-            <h3>Everything included. No credit card, no catch.</h3>
+            <span className="eyebrow">BASIC FREE. SCALE WHEN YOU NEED.</span>
+
+            <h3>Start free. Add more services when you need them.</h3>
+
             <p>
-              We believe teams do their best work when tools don't get in the way.
-              Fill out this quick form and our workspace specialists will configure
-              your team's setup at zero charge.
+              We believe teams should be able to get started without worrying
+              about setup costs. Select up to 2 service deliverables for the
+              basic free package. Selecting more than 2 will move the request
+              into a paid service package.
             </p>
           </div>
 
           <div className="quotation-perks">
             <div className="quotation-perk-item">
               <div className="quotation-perk-icon">✦</div>
+
               <div className="quotation-perk-text">
-                <strong>100% Free Lifetime Setup</strong>
-                <span>All core features, custom views, and dashboards at zero subscription fee.</span>
+                <strong>Basic Setup — Free</strong>
+
+                <span>
+                  Select up to 2 service deliverables at no cost.
+                </span>
               </div>
             </div>
 
             <div className="quotation-perk-item">
               <div className="quotation-perk-icon">⚡</div>
+
               <div className="quotation-perk-text">
                 <strong>Custom Workspace Architecture</strong>
-                <span>We tailor categories, pipelines, and notifications to match your workflow.</span>
+
+                <span>
+                  We tailor categories, pipelines, and notifications to match
+                  your workflow.
+                </span>
               </div>
             </div>
 
             <div className="quotation-perk-item">
               <div className="quotation-perk-icon">🛡️</div>
+
               <div className="quotation-perk-text">
                 <strong>Private & Secure</strong>
-                <span>Dedicated encryption, safe multi-member permissions, and full data control.</span>
+
+                <span>
+                  Dedicated encryption, safe multi-member permissions, and full
+                  data control.
+                </span>
               </div>
             </div>
 
             <div className="quotation-perk-item">
               <div className="quotation-perk-icon">🚀</div>
+
               <div className="quotation-perk-text">
-                <strong>24-Hour Turnaround</strong>
-                <span>Receive your custom setup quotation and access credentials within 24 hours.</span>
+                <strong>Flexible Service Packages</strong>
+
+                <span>
+                  Need more than 2 deliverables? Your request can be reviewed
+                  for a paid service package.
+                </span>
               </div>
             </div>
           </div>
@@ -175,8 +280,11 @@ export default function Quotation() {
           {!submitted ? (
             <>
               <div className="quotation-card-header">
-                <h4>Get Your Free Workspace</h4>
-                <p>Fill in the details below to request your team's access.</p>
+                <h4>Get Your Workspace</h4>
+
+                <p>
+                  Select the services and deliverables your team needs.
+                </p>
               </div>
 
               <form className="quotation-form" onSubmit={handleSubmit}>
@@ -185,6 +293,7 @@ export default function Quotation() {
                     <label htmlFor="fullName">
                       Full Name <span className="required">*</span>
                     </label>
+
                     <input
                       id="fullName"
                       name="fullName"
@@ -201,6 +310,7 @@ export default function Quotation() {
                     <label htmlFor="email">
                       Work Email <span className="required">*</span>
                     </label>
+
                     <input
                       id="email"
                       name="email"
@@ -217,8 +327,10 @@ export default function Quotation() {
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="company">
-                      Company / Organization <span className="required">*</span>
+                      Company / Organization{' '}
+                      <span className="required">*</span>
                     </label>
+
                     <input
                       id="company"
                       name="company"
@@ -233,6 +345,7 @@ export default function Quotation() {
 
                   <div className="form-group">
                     <label htmlFor="teamSize">Team Size</label>
+
                     <select
                       id="teamSize"
                       name="teamSize"
@@ -249,7 +362,10 @@ export default function Quotation() {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="serviceType">Service Requirement</label>
+                  <label htmlFor="serviceType">
+                    Service Requirement
+                  </label>
+
                   <select
                     id="serviceType"
                     name="serviceType"
@@ -257,54 +373,142 @@ export default function Quotation() {
                     value={formData.serviceType}
                     onChange={handleChange}
                   >
-                    <option value="Full Workspace Setup">Full Workspace Setup</option>
-                    <option value="Team Migration">Team Data Migration</option>
-                    <option value="Custom Integrations">Custom Tool Integrations</option>
-                    <option value="Workflow Consulting">Workflow & Productivity Consulting</option>
+                    <option value="Full Workspace Setup">
+                      Full Workspace Setup
+                    </option>
+
+                    <option value="Team Migration">
+                      Team Data Migration
+                    </option>
+
+                    <option value="Custom Integrations">
+                      Custom Tool Integrations
+                    </option>
+
+                    <option value="Workflow Consulting">
+                      Workflow & Productivity Consulting
+                    </option>
                   </select>
 
-                  {/* Dynamic What's Included Preview Box */}
-                  {serviceDeliverables[formData.serviceType] && (
-                    <div className="service-details-box" key={formData.serviceType}>
+                  {/* Dynamic Service Details */}
+                  {currentService && (
+                    <div
+                      className={`service-details-box ${isPaid ? 'service-is-paid' : 'service-is-free'
+                        }`}
+                      key={formData.serviceType}
+                    >
                       <div className="service-details-header">
                         <div className="service-details-title-row">
                           <span className="service-details-icon">
-                            {serviceDeliverables[formData.serviceType].icon}
+                            {currentService.icon}
                           </span>
+
                           <div>
                             <span className="service-details-badge">
-                              {serviceDeliverables[formData.serviceType].badge}
+                              {currentService.badge}
                             </span>
+
                             <h5 className="service-details-heading">
-                              {serviceDeliverables[formData.serviceType].title}
+                              {currentService.title}
                             </h5>
                           </div>
                         </div>
-                        <span className="service-free-pill">✓ 100% Free Included</span>
+
+                        {/* Dynamic Free / Paid Status */}
+                        <span
+                          className={`service-free-pill ${isPaid ? 'service-paid-pill' : 'service-basic-pill'
+                            }`}
+                        >
+                          {pricingLabel}
+                        </span>
                       </div>
 
                       <p className="service-details-summary">
-                        {serviceDeliverables[formData.serviceType].summary}
+                        {currentService.summary}
                       </p>
 
-                      <div className="service-deliverables-title">
-                        <span>What's included in this service:</span>
+                      {/* Selection Information */}
+                      <div className="service-selection-info">
+                        <div className="service-deliverables-title">
+                          <span>
+                            Select the deliverables you need:
+                          </span>
+                        </div>
+
+                        <span className="service-selection-count">
+                          {selectedCount} of{' '}
+                          {currentService.deliverables.length} selected
+                        </span>
                       </div>
 
+                      {/* Free / Paid Explanation */}
+                      <div className="service-pricing-message">
+                        {isPaid ? (
+                          <>
+                            <strong>Paid service package</strong>
+                            <span>
+                              You selected more than 2 deliverables. Your
+                              request will be treated as a paid service
+                              quotation.
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <strong>Basic setup is free</strong>
+                            <span>
+                              Select up to 2 deliverables to stay within the
+                              free basic package.
+                            </span>
+                          </>
+                        )}
+                      </div>
+
+                      {/* Selectable Deliverables */}
                       <ul className="service-deliverables-list">
-                        {serviceDeliverables[formData.serviceType].deliverables.map((item, idx) => (
-                          <li key={idx} className="service-deliverable-item">
-                            <span className="service-check-icon">✓</span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
+                        {currentService.deliverables.map(
+                          (item, idx) => {
+                            const isSelected =
+                              formData.selectedDeliverables.includes(item)
+
+                            return (
+                              <li
+                                key={idx}
+                                className={`service-deliverable-item ${isSelected
+                                  ? 'service-deliverable-selected'
+                                  : ''
+                                  }`}
+                              >
+                                <label className="service-deliverable-label">
+                                  <input
+                                    type="checkbox"
+                                    checked={isSelected}
+                                    onChange={() =>
+                                      handleDeliverableToggle(item)
+                                    }
+                                  />
+
+                                  <span className="service-checkbox">
+                                    {isSelected && '✓'}
+                                  </span>
+
+                                  <span className="service-deliverable-text">
+                                    {item}
+                                  </span>
+                                </label>
+                              </li>
+                            )
+                          }
+                        )}
                       </ul>
                     </div>
                   )}
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="message">Project Requirements / Notes (Optional)</label>
+                  <label htmlFor="message">
+                    Project Requirements / Notes (Optional)
+                  </label>
+
                   <textarea
                     id="message"
                     name="message"
@@ -315,42 +519,107 @@ export default function Quotation() {
                   />
                 </div>
 
+                {/* Current Pricing Status */}
+                <div
+                  className={`quotation-pricing-status ${isPaid
+                    ? 'quotation-pricing-paid'
+                    : 'quotation-pricing-free'
+                    }`}
+                >
+                  <div>
+                    <strong>
+                      {isPaid
+                        ? 'Paid Service Package'
+                        : 'Basic Package — Free'}
+                    </strong>
+
+                    <span>
+                      {isPaid
+                        ? `${selectedCount} deliverables selected`
+                        : `${selectedCount}/2 free deliverables selected`}
+                    </span>
+                  </div>
+
+                  <span>
+                    {isPaid ? 'Quotation Required' : 'FREE'}
+                  </span>
+                </div>
+
                 <button
                   type="submit"
                   className="quotation-submit-btn"
                   disabled={isSubmitting}
                 >
-                  <span>{isSubmitting ? 'Submitting Request...' : 'Submit Quotation Request'}</span>
+                  <span>
+                    {isSubmitting
+                      ? 'Submitting Request...'
+                      : 'Submit Quotation Request'}
+                  </span>
+
                   {!isSubmitting && <Arrow />}
                 </button>
 
                 <div className="form-footnote">
-                  <span>✓ 100% Free Service</span>
+                  <span>✓ Basic Service Free</span>
+
                   <span>•</span>
-                  <span>No credit card needed</span>
+
+                  <span>Up to 2 Deliverables</span>
+
                   <span>•</span>
-                  <span>Fast 24h response</span>
+
+                  <span>Fast 24h Response</span>
                 </div>
               </form>
             </>
           ) : (
             <div className="quotation-success">
               <div className="success-icon-wrap">✓</div>
+
               <h4>Quotation Request Received!</h4>
+
               <p>
-                Thank you <strong>{formData.fullName}</strong>. Since Whitespace is completely
-                free, our team will review your requirements for <strong>{formData.company}</strong> and
-                email your custom onboarding quotation and workspace credentials shortly.
+                Thank you <strong>{formData.fullName}</strong>. Our team will
+                review your requirements for{' '}
+                <strong>{formData.company}</strong> and get back to you with
+                the appropriate service details.
               </p>
 
               <div className="success-details-card">
-                <div><strong>Requested Service:</strong> {formData.serviceType}</div>
-                <div><strong>Email:</strong> {formData.email}</div>
-                <div><strong>Team Size:</strong> {formData.teamSize}</div>
-                <div><strong>Status:</strong> Free Service Approved (In Queue)</div>
+                <div>
+                  <strong>Requested Service:</strong>{' '}
+                  {formData.serviceType}
+                </div>
+
+                <div>
+                  <strong>Email:</strong> {formData.email}
+                </div>
+
+                <div>
+                  <strong>Team Size:</strong> {formData.teamSize}
+                </div>
+
+                <div>
+                  <strong>Selected Deliverables:</strong>{' '}
+                  {formData.selectedDeliverables.length}
+                </div>
+
+                <div>
+                  <strong>Pricing:</strong>{' '}
+                  {isPaid
+                    ? 'Paid Service Package'
+                    : 'Basic Service — Free'}
+                </div>
+
+                <div>
+                  <strong>Status:</strong> Free Service Approved (In Queue)
+                </div>
               </div>
 
-              <button className="reset-form-btn" onClick={handleReset}>
+              <button
+                className="reset-form-btn"
+                onClick={handleReset}
+              >
                 Submit Another Request
               </button>
             </div>
