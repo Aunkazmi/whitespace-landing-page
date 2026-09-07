@@ -65,6 +65,8 @@ export default function Quotation() {
 
   const [submitted, setSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [ticketId, setTicketId] = useState('')
+  const [copied, setCopied] = useState(false)
 
   function handleChange(e) {
     const { name, value } = e.target
@@ -75,11 +77,22 @@ export default function Quotation() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate quick processing
+    // Generate random reference ticket ID
+    const genTicket = 'WS-' + Math.floor(100000 + Math.random() * 900000)
+    setTicketId(genTicket)
+
+    // Simulate instant frontend dispatch
     setTimeout(() => {
       setIsSubmitting(false)
       setSubmitted(true)
     }, 600)
+  }
+
+  function handleCopyEmail() {
+    const emailBody = `Hi ${formData.fullName},\n\nWe have received your quotation request for ${formData.company}.\nYour request is currently being processed by our onboarding engineers.\nSince Whitespace is 100% free, your custom setup will be completed within 24 hours at zero charge.\n\nTicket Reference: #${ticketId}\nService: ${formData.serviceType}\nTeam Size: ${formData.teamSize}\nStatus: Being Processed ⚙️\n\nWarm regards,\nThe Whitespace Team`
+    navigator.clipboard.writeText(emailBody)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   function handleReset() {
@@ -92,6 +105,7 @@ export default function Quotation() {
       message: '',
     })
     setSubmitted(false)
+    setCopied(false)
   }
 
   return (
