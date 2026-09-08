@@ -145,7 +145,16 @@ export default function Quotation() {
         body: JSON.stringify(formData),
       })
 
-      const result = await response.json()
+      const responseText = await response.text()
+      let result = {}
+
+      try {
+        result = responseText ? JSON.parse(responseText) : {}
+      } catch {
+        throw new Error(
+          'The quotation service is unavailable. Please start the backend or configure VITE_API_URL for the deployed API.',
+        )
+      }
 
       if (!response.ok) {
         throw new Error(result.message || 'Unable to submit quotation request.')
