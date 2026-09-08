@@ -60,7 +60,7 @@ const serviceDeliverables = {
   },
 }
 
-export default function Quotation({ onNavigatePricing }) {
+export default function Quotation() {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -75,9 +75,12 @@ export default function Quotation({ onNavigatePricing }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [ticketId, setTicketId] = useState('')
   const [copied, setCopied] = useState(false)
+  const [selectionModalOpen, setSelectionModalOpen] = useState(false)
+  const [formError, setFormError] = useState('')
 
   function handleChange(e) {
     const { name, value } = e.target
+    setFormError('')
 
     // If the service type changes, reset selected deliverables
     if (name === 'serviceType') {
@@ -96,6 +99,7 @@ export default function Quotation({ onNavigatePricing }) {
   }
 
   function handleDeliverableToggle(deliverable) {
+    setFormError('')
     setFormData((prev) => {
       const alreadySelected = prev.selectedDeliverables.includes(deliverable)
 
@@ -112,6 +116,22 @@ export default function Quotation({ onNavigatePricing }) {
 
   function handleSubmit(e) {
     e.preventDefault()
+
+    const missingDetails = !formData.fullName.trim()
+      || !formData.email.trim()
+      || !formData.company.trim()
+
+    if (!formData.selectedDeliverables.length) {
+      setFormError('Please select at least one desirable workspace deliverable before submitting.')
+      return
+    }
+
+    if (missingDetails) {
+      setFormError('Please fill out your full name, work email, and company before submitting.')
+      return
+    }
+
+    setFormError('')
     setIsSubmitting(true)
 
     // Generate random reference ticket ID
@@ -179,6 +199,17 @@ The Whitespace Team`
 
     setSubmitted(false)
     setCopied(false)
+    setSelectionModalOpen(false)
+    setFormError('')
+  }
+
+  function openSelectionModal(serviceType) {
+    setFormData((prev) => ({
+      ...prev,
+      serviceType,
+      selectedDeliverables: [],
+    }))
+    setSelectionModalOpen(true)
   }
 
   const currentService = serviceDeliverables[formData.serviceType]
@@ -287,7 +318,40 @@ The Whitespace Team`
                 </p>
               </div>
 
-              <form className="quotation-form" onSubmit={handleSubmit}>
+              <form className="quotation-form" onSubmit={handleSubmit} noValidate>
+                <div className="quotation-service-preview">
+                  <div className="quotation-service-preview-heading">
+                    <strong>Choose what you need next</strong>
+                    <span>Click to select</span>
+                  </div>
+
+                  <div className="quotation-service-preview-grid">
+                    <button type="button" className="quotation-service-preview-card" onClick={() => openSelectionModal('Full Workspace Setup')}>
+                      <span>🛠️</span>
+                      <strong>Workspace Setup</strong>
+                      <small>Boards, roles & views</small>
+                    </button>
+
+                    <button type="button" className="quotation-service-preview-card" onClick={() => openSelectionModal('Team Migration')}>
+                      <span>📦</span>
+                      <strong>Team Migration</strong>
+                      <small>Bring your data across</small>
+                    </button>
+
+                    <button type="button" className="quotation-service-preview-card" onClick={() => openSelectionModal('Custom Integrations')}>
+                      <span>⚡</span>
+                      <strong>Integrations</strong>
+                      <small>Connect your tools</small>
+                    </button>
+
+                    <button type="button" className="quotation-service-preview-card" onClick={() => openSelectionModal('Workflow Consulting')}>
+                      <span>🎯</span>
+                      <strong>Workflow Consulting</strong>
+                      <small>Find your next best move</small>
+                    </button>
+                  </div>
+                </div>
+
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="fullName">
@@ -362,149 +426,6 @@ The Whitespace Team`
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="serviceType">
-                    Service Requirement
-                  </label>
-
-                  <select
-                    id="serviceType"
-                    name="serviceType"
-                    className="form-select"
-                    value={formData.serviceType}
-                    onChange={handleChange}
-                  >
-                    <option value="Full Workspace Setup">
-                      Full Workspace Setup
-                    </option>
-
-                    <option value="Team Migration">
-                      Team Data Migration
-                    </option>
-
-                    <option value="Custom Integrations">
-                      Custom Tool Integrations
-                    </option>
-
-                    <option value="Workflow Consulting">
-                      Workflow & Productivity Consulting
-                    </option>
-                  </select>
-
-                  {/* Dynamic Service Details */}
-                  {currentService && (
-                    <div
-                      className={`service-details-box ${isPaid ? 'service-is-paid' : 'service-is-free'
-                        }`}
-                      key={formData.serviceType}
-                    >
-                      <div className="service-details-header">
-                        <div className="service-details-title-row">
-                          <span className="service-details-icon">
-                            {currentService.icon}
-                          </span>
-
-                          <div>
-                            <span className="service-details-badge">
-                              {currentService.badge}
-                            </span>
-
-                            <h5 className="service-details-heading">
-                              {currentService.title}
-                            </h5>
-                          </div>
-                        </div>
-
-                        {/* Dynamic Free / Paid Status */}
-                        <span
-                          className={`service-free-pill ${isPaid ? 'service-paid-pill' : 'service-basic-pill'
-                            }`}
-                        >
-                          {pricingLabel}
-                        </span>
-                      </div>
-
-                      <p className="service-details-summary">
-                        {currentService.summary}
-                      </p>
-
-                      {/* Selection Information */}
-                      <div className="service-selection-info">
-                        <div className="service-deliverables-title">
-                          <span>
-                            Select the deliverables you need:
-                          </span>
-                        </div>
-
-                        <span className="service-selection-count">
-                          {selectedCount} of{' '}
-                          {currentService.deliverables.length} selected
-                        </span>
-                      </div>
-
-                      {/* Free / Paid Explanation */}
-                      <div className="service-pricing-message">
-                        {isPaid ? (
-                          <>
-                            <strong>Paid service package</strong>
-                            <span>
-                              You selected more than 2 deliverables. Your
-                              request will be treated as a paid service
-                              quotation.
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <strong>Basic setup is free</strong>
-                            <span>
-                              Select up to 2 deliverables to stay within the
-                              free basic package.
-                            </span>
-                          </>
-                        )}
-                      </div>
-
-                      {/* Selectable Deliverables */}
-                      <ul className="service-deliverables-list">
-                        {currentService.deliverables.map(
-                          (item, idx) => {
-                            const isSelected =
-                              formData.selectedDeliverables.includes(item)
-
-                            return (
-                              <li
-                                key={idx}
-                                className={`service-deliverable-item ${isSelected
-                                  ? 'service-deliverable-selected'
-                                  : ''
-                                  }`}
-                              >
-                                <label className="service-deliverable-label">
-                                  <input
-                                    type="checkbox"
-                                    checked={isSelected}
-                                    onChange={() =>
-                                      handleDeliverableToggle(item)
-                                    }
-                                  />
-
-                                  <span className="service-checkbox">
-                                    {isSelected && '✓'}
-                                  </span>
-
-                                  <span className="service-deliverable-text">
-                                    {item}
-                                  </span>
-                                </label>
-                              </li>
-                            )
-                          }
-                        )}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-
-                <div className="form-group">
                   <label htmlFor="message">
                     Project Requirements / Notes (Optional)
                   </label>
@@ -519,56 +440,12 @@ The Whitespace Team`
                   />
                 </div>
 
-                {/* Current Pricing Status */}
-                <div
-                  className={`quotation-pricing-status ${isPaid
-                    ? 'quotation-pricing-paid'
-                    : 'quotation-pricing-free'
-                    }`}
-                >
-                  <div>
-                    <strong>
-                      {isPaid
-                        ? 'Paid Service Package'
-                        : 'Basic Package — Free'}
-                    </strong>
+                <button type="submit" className="quotation-submit-btn" disabled={isSubmitting}>
+                  <span>{isSubmitting ? 'Sending Request...' : 'Submit Quotation Request'}</span>
+                  <Arrow />
+                </button>
 
-                    <span>
-                      {isPaid
-                        ? `${selectedCount} deliverables selected`
-                        : `${selectedCount}/2 free deliverables selected`}
-                    </span>
-                  </div>
-
-                  <span>
-                    {isPaid ? 'Quotation Required' : 'FREE'}
-                  </span>
-                </div>
-
-                {isPaid ? (
-                  <button
-                    type="button"
-                    className="quotation-submit-btn quotation-unlock-btn"
-                    onClick={onNavigatePricing}
-                  >
-                    <span>Unlock the Full Workspace</span>
-                    <Arrow />
-                  </button>
-                ) : (
-                  <button
-                    type="submit"
-                    className="quotation-submit-btn"
-                    disabled={isSubmitting}
-                  >
-                  <span>
-                    {isSubmitting
-                      ? 'Submitting Request...'
-                      : 'Submit Quotation Request'}
-                  </span>
-
-                  {!isSubmitting && <Arrow />}
-                  </button>
-                )}
+                {formError && <p className="quotation-form-error" role="alert">{formError}</p>}
 
                 <div className="form-footnote">
                   <span>✓ Basic Service Free</span>
@@ -581,6 +458,24 @@ The Whitespace Team`
 
                   <span>Fast 24h Response</span>
                 </div>
+
+                {selectionModalOpen && currentService && (
+                  <div className="quotation-selection-overlay" role="presentation" onMouseDown={(event) => {
+                    if (event.target === event.currentTarget) setSelectionModalOpen(false)
+                  }}>
+                    <div className="quotation-selection-modal" role="dialog" aria-modal="true" aria-labelledby="selection-modal-title">
+                      <button type="button" className="quotation-modal-close" onClick={() => setSelectionModalOpen(false)} aria-label="Close service selection">×</button>
+                      <div className="service-details-header">
+                        <div className="service-details-title-row"><span className="service-details-icon">{currentService.icon}</span><div><span className="service-details-badge">{currentService.badge}</span><h5 id="selection-modal-title" className="service-details-heading">{currentService.title}</h5></div></div>
+                        <span className="service-free-pill service-basic-pill">Basic — Free</span>
+                      </div>
+                      <p className="service-details-summary">{currentService.summary}</p>
+                      <div className="service-selection-info"><div className="service-deliverables-title"><span>Select the deliverables you need:</span></div><span className="service-selection-count">{selectedCount} of {currentService.deliverables.length} selected</span></div>
+                      <ul className="service-deliverables-list">{currentService.deliverables.map((item) => <li key={item} className={`service-deliverable-item ${formData.selectedDeliverables.includes(item) ? 'service-deliverable-selected' : ''}`}><label className="service-deliverable-label"><input type="checkbox" checked={formData.selectedDeliverables.includes(item)} onChange={() => handleDeliverableToggle(item)} /><span className="service-checkbox">{formData.selectedDeliverables.includes(item) && '✓'}</span><span className="service-deliverable-text">{item}</span></label></li>)}</ul>
+                      <div className="quotation-modal-footer"><span>{selectedCount > 2 ? 'Paid service package' : 'Up to 2 deliverables are free'}</span><button type="button" className="quotation-modal-done" onClick={() => setSelectionModalOpen(false)}>Done selecting <Arrow /></button></div>
+                    </div>
+                  </div>
+                )}
               </form>
             </>
           ) : (
@@ -637,6 +532,7 @@ The Whitespace Team`
           )}
         </div>
       </div>
+
     </section>
   )
 }
