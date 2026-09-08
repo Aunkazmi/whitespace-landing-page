@@ -2,6 +2,8 @@ import { useState } from 'react'
 import Arrow from '../ui/Arrow'
 import './Quotation.css'
 
+const quotationApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
 const serviceDeliverables = {
   'Full Workspace Setup': {
     title: 'Full Workspace Setup',
@@ -114,7 +116,7 @@ export default function Quotation() {
     })
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
 
     const missingDetails = !formData.fullName.trim()
@@ -134,16 +136,29 @@ export default function Quotation() {
     setFormError('')
     setIsSubmitting(true)
 
-    // Generate random reference ticket ID
-    const genTicket = 'WS-' + Math.floor(100000 + Math.random() * 900000)
+    try {
+      const response = await fetch(`${quotationApiUrl}/api/quotations`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
 
-    setTicketId(genTicket)
+      const result = await response.json()
 
-    // Simulate instant frontend dispatch
-    setTimeout(() => {
+      if (!response.ok) {
+        throw new Error(result.message || 'Unable to submit quotation request.')
+      }
+
+      const quotationId = result.quotation?._id
+      setTicketId(quotationId ? `WS-${quotationId.slice(-6).toUpperCase()}` : 'WS-PENDING')
       setIsSubmitting(false)
       setSubmitted(true)
-    }, 600)
+    } catch (error) {
+      setIsSubmitting(false)
+      setFormError(error.message || 'The request could not be sent. Please try again.')
+    }
   }
 
   function handleCopyEmail() {
