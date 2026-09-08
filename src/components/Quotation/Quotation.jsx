@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Arrow from '../ui/Arrow'
 import './Quotation.css'
 
-const quotationApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const quotationApiUrl = import.meta.env.VITE_API_URL || ''
 
 const serviceDeliverables = {
   'Full Workspace Setup': {
