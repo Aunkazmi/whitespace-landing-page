@@ -15,6 +15,9 @@ const transporter = smtpConfigured
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
       },
+      connectionTimeout: 8000,
+      greetingTimeout: 8000,
+      socketTimeout: 8000,
     })
   : null
 
@@ -28,7 +31,8 @@ export async function sendQuotationConfirmation(quotation) {
     .map((item) => `<li>${escapeHtml(item)}</li>`)
     .join('')
 
-  await transporter.sendMail({
+  await Promise.race([
+    transporter.sendMail({
     from,
     to: quotation.email,
     subject: 'Your Whitespace request is under process',
@@ -56,7 +60,11 @@ export async function sendQuotationConfirmation(quotation) {
         </div>
       </div>
     `,
-  })
+    }),
+    new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Email delivery timed out.')), 10000)
+    }),
+  ])
 
   return true
 }
