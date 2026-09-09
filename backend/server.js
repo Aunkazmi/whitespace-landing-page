@@ -38,9 +38,9 @@ app.use((error, req, res, next) => {
 
 connectDatabase()
   .then(() => {
-    app.listen(port, () => {
-      console.log(`Backend listening on http://localhost:${port}`)
-    })
+    app.listen(port, '0.0.0.0', () => {
+  console.log(`Backend listening on port ${port}`)
+})
   })
   .catch((error) => {
     console.error('Database connection failed:', error)
