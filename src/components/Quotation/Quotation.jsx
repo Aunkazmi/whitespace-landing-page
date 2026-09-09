@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Arrow from '../ui/Arrow'
 import './Quotation.css'
 
-const quotationApiUrl = import.meta.env.VITE_API_URL || ''
+const quotationApiUrl = import.meta.env.VITE_API_URL || 'https://c-users-aun-shah-desktop-backend-production.up.railway.app/'
 
 const serviceDeliverables = {
   'Full Workspace Setup': {
@@ -137,7 +137,7 @@ export default function Quotation() {
     setIsSubmitting(true)
 
     try {
-      const response = await fetch(`${quotationApiUrl}/api/quotations`, {
+      const response = await fetch(`${quotationApiUrl}api/quotations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
